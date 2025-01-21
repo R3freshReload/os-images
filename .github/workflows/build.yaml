@@ -1,0 +1,55 @@
+name: Build
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build-matrix:
+    # Create a matrix that includes both 'image' and 'platform'
+    strategy:
+      matrix:
+        include:
+          - image: ubuntu
+            platform: linux/arm64
+          - image: rbpi
+            platform: linux/arm64
+          # If you have images that do not require a platform flag, set platform to an empty string:
+          # - image: some-other-image
+          #   platform: ""
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          # Check if a platform was set; if so, add it to the build command.
+          if [ -n "${{ matrix.platform }}" ]; then
+            docker build \
+              --platform ${{ matrix.platform }} \
+              -t ghcr.io/${{ github.repository }}/${{ matrix.image }}-os:latest \
+              images/${{ matrix.image }}
+          else
+            docker build \
+              -t ghcr.io/${{ github.repository }}/${{ matrix.image }}-os:latest \
+              images/${{ matrix.image }}
+          fi
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository }}/${{ matrix.image }}-os:latest
