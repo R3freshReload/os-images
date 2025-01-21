@@ -1,0 +1,30 @@
+name: Default deployment
+stages:
+  rootfs.after:
+    #    - if: '[ -f "/run/cos/recovery_mode" ]'
+    #      name: Repart image
+    #      layout:
+    #        device:
+    #          label: COS_RECOVERY
+    #        add_partitions:
+    #          - fsLabel: COS_STATE
+    #            size: 15360
+    #            pLabel: state
+    #          - fsLabel: COS_PERSISTENT
+    #            pLabel: persistent
+    - if: '[ ! -f "/run/cos/recovery_mode" ]'
+      name: Persistent state
+      environment_file: /run/cos/cos-layout.env
+      environment:
+        VOLUMES: 'LABEL=COS_OEM:/oem LABEL=COS_PERSISTENT:/usr/local'
+        OVERLAY: 'tmpfs:25%'
+        RW_PATHS: /var /etc /srv
+        PERSISTENT_STATE_PATHS: >-
+          /root /opt /home /var/lib/rancher /var/lib/kubelet /etc/systemd
+          /etc/rancher /etc/ssh
+  network:
+    - if: '[ -f "/run/cos/recovery_mode" ]'
+      name: Deploy cos-system
+      commands:
+        - elemental reset --reboot
+
