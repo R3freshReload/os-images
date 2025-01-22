@@ -10,6 +10,8 @@ concurrency:
 
 jobs:
   build-matrix:
+    permissions:
+      packages: write
     # Create a matrix that includes both 'image' and 'platform'
     strategy:
       matrix:
@@ -40,7 +42,7 @@ jobs:
         id: registry_case
         uses: ASzc/change-string-case-action@v6
         with:
-          string: ${{ github.repository_owner }}
+          string: ${{ github.repository }}
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
