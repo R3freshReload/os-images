@@ -1,6 +1,5 @@
 name: Build
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -17,14 +16,17 @@ jobs:
         include:
           - image: ubuntu
             platform: linux/arm64
+            runs-on: ubuntu-24.04-arm
           - image: rbpi
             platform: linux/arm64
+            runs-on: ubuntu-24.04-arm
           # If you have images that do not require a platform flag, set platform to an empty string:
           # - image: some-other-image
           #   platform: ""
+          #   runs-on: ubuntu-latest
       fail-fast: false
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
