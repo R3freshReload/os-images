@@ -52,3 +52,4 @@ jobs:
         with:
           name: example-${{ matrix.image }}-os
           path: /build/${{ matrix.image }}.raw
+          compression-level: 9
