@@ -42,10 +42,10 @@ jobs:
           # Check if a platform was set; if so, add it to the build command.
           if [ -n "${{ matrix.platform }}" ]; then
             docker build --platform ${{ matrix.platform }} -t example-${{ matrix.image }}-os examples/${{ matrix.image }}
-            docker run --rm -ti --platform ${{ matrix.platform }} -v /var/run/docker.sock:/var/run/docker.sock --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system example-${{ matrix.image }}-os --config-dir /config --local --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
+            docker run --rm --platform ${{ matrix.platform }} -v /var/run/docker.sock:/var/run/docker.sock --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system example-${{ matrix.image }}-os --config-dir /config --local --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
           else
             docker build -t example-${{ matrix.image }}-os examples/${{ matrix.image }}
-            docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system example-${{ matrix.image }}-os --config-dir /config --local --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system example-${{ matrix.image }}-os --config-dir /config --local --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
           fi
 
       - uses: actions/upload-artifact@v4
