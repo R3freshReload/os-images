@@ -23,21 +23,13 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   systemd-sysv \
   systemd-timesyncd \
   systemd-resolved \
-  openssh-server \
-  openssh-client \
   tzdata \
   parted \
-  e2fsprogs \
   dosfstools \
   mtools \
-  xorriso \
-  findutils \
   gdisk \
   rsync \
   squashfs-tools \
-  lvm2 \
-  vim \
-  less \
   sudo \
   ca-certificates \
   curl \
@@ -47,9 +39,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   netplan.io \
   locales \
   kbd \
-  podman \
-  btrfs-progs \
-  btrfsmaintenance \
   xz-utils && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
