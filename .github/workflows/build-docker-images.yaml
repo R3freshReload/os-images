@@ -52,7 +52,7 @@ jobs:
     steps:
       - name: Check out source code
         if: ${{ needs.change-detection.outputs.images == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
         if: ${{ needs.change-detection.outputs.images == 'true' }}
@@ -114,7 +114,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
