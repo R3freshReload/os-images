@@ -7,4 +7,4 @@ qemu-system-aarch64 \
     -bios /opt/homebrew/Cellar/qemu/9.1.1/share/qemu/edk2-aarch64-code.fd \
     -serial stdio \
     -machine virt \
-    -drive if=virtio,file=build/ubuntu.qcow2,format=qcow2
+    -drive file=build/ubuntu.qcow2,format=qcow2
