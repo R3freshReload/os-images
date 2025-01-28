@@ -8,4 +8,3 @@ qemu-system-aarch64 \
     -serial stdio \
     -machine virt \
     -drive file=build/ubuntu.qcow2,format=qcow2
-    

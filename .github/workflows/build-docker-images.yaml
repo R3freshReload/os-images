@@ -146,11 +146,7 @@ jobs:
 
       - name: Build Disk Image
         run: |
-          if [ -n "${{ matrix.platform }}" ]; then
-            docker run --rm --platform ${{ matrix.platform }} -v /var/run/docker.sock:/var/run/docker.sock --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system ghcr.io/${{ steps.registry_case.outputs.lowercase }}/example-${{ matrix.image }}-os --config-dir /config --local --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
-          else
-            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system ghcr.io/${{ steps.registry_case.outputs.lowercase }}/example-${{ matrix.image }}-os --config-dir /config --local --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
-          fi
+          docker run --rm --platform ${{ matrix.platform }} --entrypoint /bin/sh -v /build:/output ghcr.io/rancher/elemental-toolkit/elemental-cli:v2.2.0 -c "elemental build-disk --squash-no-compression --system ghcr.io/${{ steps.registry_case.outputs.lowercase }}/example-${{ matrix.image }}-os --config-dir /config --output /build --expandable --debug -n ${{ matrix.image }} && mv /build/${{ matrix.image }}.raw /output/"
 
       - uses: actions/upload-artifact@v4
         with:
