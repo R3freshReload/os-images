@@ -25,17 +25,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   systemd-resolved \
   tzdata \
   parted \
-  e2fsprogs \
   dosfstools \
   mtools \
-  xorriso \
-  findutils \
   gdisk \
   rsync \
   squashfs-tools \
-  lvm2 \
-  vim \
-  less \
   sudo \
   ca-certificates \
   curl \
