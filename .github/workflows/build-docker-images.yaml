@@ -30,6 +30,8 @@ jobs:
             - 'examples/**'
 
   build-base-images:
+    env:
+      DOCKER_BUILD_SUMMARY: "false"
     needs: change-detection
     permissions:
       packages: write
@@ -90,6 +92,8 @@ jobs:
 
 
   build-disk-images:
+    env:
+      DOCKER_BUILD_SUMMARY: "false"
     needs:
       - build-base-images
       - change-detection
